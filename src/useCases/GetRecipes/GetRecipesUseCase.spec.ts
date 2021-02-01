@@ -1,19 +1,22 @@
-import { GetRecipeProvider } from '../../providers';
-import { makeGetRecipeProviderStub } from '../../test-utils';
+import { GetRecipeProvider, GIFProvider } from '../../providers';
+import { makeGetRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
 
 interface SutFactory {
 	sut: GetRecipesUseCase;
 	getRecipeProvider: GetRecipeProvider;
+	gifProvider: GIFProvider;
 }
 
 function makeSut(): SutFactory {
 	const getRecipeProvider = makeGetRecipeProviderStub();
-	const sut = new GetRecipesUseCase(getRecipeProvider);
+	const gifProvider = makeGIFProviderStub();
+	const sut = new GetRecipesUseCase(getRecipeProvider, gifProvider);
 
 	return {
 		sut,
 		getRecipeProvider,
+		gifProvider,
 	};
 }
 
@@ -43,5 +46,13 @@ describe('GetRecipesUseCase', () => {
 
 		const promise = sut.execute([]);
 		await expect(promise).rejects.toThrow();
+	});
+
+	test('should use a GIFProvider', async () => {
+		const { sut, gifProvider } = makeSut();
+		const gifProviderSpy = jest.spyOn(gifProvider, 'getByKeyword');
+		await sut.execute([]);
+
+		expect(gifProviderSpy).toHaveBeenCalled();
 	});
 });
