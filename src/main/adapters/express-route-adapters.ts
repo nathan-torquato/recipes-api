@@ -4,6 +4,7 @@ import { Controller, HttpRequest } from '../../protocols';
 export function expressRouteAdapter(controller: Controller) {
 	return async (req: Request, res: Response) => {
 		const httpRequest: HttpRequest = {
+			query: req.query,
 			body: req.body,
 		};
 
