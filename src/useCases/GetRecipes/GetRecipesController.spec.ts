@@ -56,12 +56,23 @@ describe('GetRecipesController', () => {
 
 	test('should throw if GetRecipesUseCase throws', async () => {
 		const { sut, useCase } = makeSut();
-		jest.spyOn(useCase, 'execute').mockImplementation(() => {
+		jest.spyOn(useCase, 'execute').mockImplementationOnce(() => {
 			throw Error();
 		});
 		const httpRequest = makeHttpRequest();
 
 		const promise = sut.handle(httpRequest);
 		await expect(promise).rejects.toThrow();
+	});
+
+	test('should return 200 and data from GetRecipesUseCase when gets valid request', async () => {
+		const { sut, useCase } = makeSut();
+		const mockedValue = [];
+		jest.spyOn(useCase, 'execute').mockReturnValueOnce(Promise.resolve(mockedValue));
+		const httpRequest = makeHttpRequest();
+
+		const response = await sut.handle(httpRequest);
+		expect(response.statusCode).toBe(200);
+		expect(response.body).toBe(mockedValue);
 	});
 });

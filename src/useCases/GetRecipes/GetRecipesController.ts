@@ -27,7 +27,11 @@ export class GetRecipesController implements Controller {
 
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 		const ingredients = this.getIngredients(httpRequest);
-		await this.getRecipesUseCase.execute(ingredients);
-		return null;
+		const recipes = await this.getRecipesUseCase.execute(ingredients);
+
+		return {
+			statusCode: 200,
+			body: recipes,
+		};
 	}
 }
