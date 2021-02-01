@@ -4,7 +4,7 @@ import { Controller, HttpRequest, HttpResponse } from '../../protocols';
 export class GetRecipesController implements Controller {
 	private readonly maximumQtyOfIngredients = 3;
 
-	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+	private getIngredients(httpRequest: HttpRequest): string[] {
 		const ingredientsString = httpRequest.query.i as string;
 		if (!ingredientsString) {
 			throw new BadRequest(
@@ -19,6 +19,11 @@ export class GetRecipesController implements Controller {
 			);
 		}
 
+		return ingredients;
+	}
+
+	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+		this.getIngredients(httpRequest);
 		return null;
 	}
 }
