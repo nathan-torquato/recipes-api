@@ -4,7 +4,7 @@ import { makeGetRecipesController } from './factories';
 
 const router = Router();
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
+/* eslint-disable @typescript-eslint/no-misused-promises */
 router.get('/', expressRouteAdapter(makeGetRecipesController()));
 
 export { router };
