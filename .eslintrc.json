@@ -1,16 +1,20 @@
 {
-  "extends": "standard-with-typescript",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "@typescript-eslint/comma-spacing": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/method-signature-style": "off",
-    "@typescript-eslint/no-extraneous-class": "off",
-    "@typescript-eslint/semi": "off",
-    "comma-dangle": "off",
-    "padded-blocks": "off"
-  }
+	"extends": "standard-with-typescript",
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"@typescript-eslint/comma-spacing": "off",
+		"@typescript-eslint/strict-boolean-expressions": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/method-signature-style": "off",
+		"@typescript-eslint/no-extraneous-class": "off",
+		"@typescript-eslint/semi": "off",
+		"@typescript-eslint/indent": "off",
+		"@typescript-eslint/space-before-function-paren": "off",
+		"@typescript-eslint/member-delimiter-style": "off",
+		"no-tabs": "off",
+		"comma-dangle": "off",
+		"padded-blocks": "off"
+	}
 }

@@ -1,0 +1,1 @@
+export { GetRecipesController } from './GetRecipesController';
