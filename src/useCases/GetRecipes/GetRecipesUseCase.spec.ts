@@ -55,4 +55,14 @@ describe('GetRecipesUseCase', () => {
 
 		expect(gifProviderSpy).toHaveBeenCalled();
 	});
+
+	test('should throw if GIFProvider throws', async () => {
+		const { sut, gifProvider } = makeSut();
+		jest.spyOn(gifProvider, 'getByKeyword').mockImplementationOnce(() => {
+			throw Error();
+		});
+
+		const promise = sut.execute([]);
+		await expect(promise).rejects.toThrow();
+	});
 });
