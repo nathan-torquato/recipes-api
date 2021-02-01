@@ -7,9 +7,10 @@
     "start": "sucrase-node src/main/server.ts",
     "build": "rimraf dist && tsc",
     "test": "jest --passWithNoTests --runInBand",
+    "test:watch": "npm test -- --watch",
     "test:verbose": "jest --passWithNoTests",
-    "test:unit": "npm run test -- --watch -c jest-unit-config.js",
-    "test:integration": "npm run test -- --watch -c jest-integration-config.js",
+    "test:unit": "npm run test:watch -- -c jest-unit-config.js",
+    "test:integration": "npm run test:watch -- -c jest-integration-config.js",
     "test:staged": "npm run test -- --findRelatedTests",
     "test:ci": "npm run test -- --coverage"
   },
