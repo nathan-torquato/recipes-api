@@ -1,8 +1,11 @@
 import { BadRequest } from '../../errors';
 import { Controller, HttpRequest, HttpResponse } from '../../protocols';
+import { GetRecipesUseCase } from './GetRecipesUseCase';
 
 export class GetRecipesController implements Controller {
 	private readonly maximumQtyOfIngredients = 3;
+
+	constructor(private readonly getRecipesUseCase: GetRecipesUseCase) {}
 
 	private getIngredients(httpRequest: HttpRequest): string[] {
 		const ingredientsString = httpRequest.query.i as string;
@@ -23,7 +26,8 @@ export class GetRecipesController implements Controller {
 	}
 
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-		this.getIngredients(httpRequest);
+		const ingredients = this.getIngredients(httpRequest);
+		await this.getRecipesUseCase.execute(ingredients);
 		return null;
 	}
 }
