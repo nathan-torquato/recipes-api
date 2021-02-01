@@ -18,12 +18,19 @@ function makeSut(): SutFactory {
 	};
 }
 
+function makeHttpRequest(): HttpRequest {
+	return {
+		query: {
+			i: 'onion,tomato,lettuce',
+		},
+	};
+}
+
 describe('GetRecipesController', () => {
 	test('should throw BadRequest if no ingredients are provided', async () => {
 		const { sut } = makeSut();
-		const httpRequest: HttpRequest = {
-			query: {},
-		};
+		const httpRequest = makeHttpRequest();
+		httpRequest.query = {};
 
 		const promise = sut.handle(httpRequest);
 		await expect(promise).rejects.toThrow(BadRequest);
@@ -31,11 +38,8 @@ describe('GetRecipesController', () => {
 
 	test('should throw BadRequest if more than 3 ingredients are provided', async () => {
 		const { sut } = makeSut();
-		const httpRequest: HttpRequest = {
-			query: {
-				i: 'onion,tomato,lettuce,orange',
-			},
-		};
+		const httpRequest = makeHttpRequest();
+		httpRequest.query.i += ',orange';
 
 		const promise = sut.handle(httpRequest);
 		await expect(promise).rejects.toThrow(BadRequest);
@@ -44,12 +48,7 @@ describe('GetRecipesController', () => {
 	test('should call GetRecipesUseCase.execute', async () => {
 		const { sut, useCase } = makeSut();
 		const useCaseSpy = jest.spyOn(useCase, 'execute');
-
-		const httpRequest: HttpRequest = {
-			query: {
-				i: 'onion,tomato,lettuce',
-			},
-		};
+		const httpRequest = makeHttpRequest();
 
 		await sut.handle(httpRequest);
 		expect(useCaseSpy).toHaveBeenCalled();
