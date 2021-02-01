@@ -2,9 +2,9 @@
   "name": "recipes-api",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "main/server.js",
   "scripts": {
-    "start": "sucrase-node src/server.ts",
+    "start": "sucrase-node src/main/server.ts",
     "build": "rimraf dist && tsc",
     "test": "jest --passWithNoTests --runInBand",
     "test:verbose": "jest --passWithNoTests",
