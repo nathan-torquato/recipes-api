@@ -27,10 +27,19 @@ function makeHttpRequest(): HttpRequest {
 }
 
 describe('GetRecipesController', () => {
-	test('should throw BadRequest if no ingredients are provided', async () => {
+	test('should throw BadRequest if no ingredients data is provided in HttpRequest.query', async () => {
 		const { sut } = makeSut();
 		const httpRequest = makeHttpRequest();
 		httpRequest.query = {};
+
+		const promise = sut.handle(httpRequest);
+		await expect(promise).rejects.toThrow(BadRequest);
+	});
+
+	test('should throw BadRequest if receives empty list of ingredients', async () => {
+		const { sut } = makeSut();
+		const httpRequest = makeHttpRequest();
+		httpRequest.query.i = ', ,';
 
 		const promise = sut.handle(httpRequest);
 		await expect(promise).rejects.toThrow(BadRequest);

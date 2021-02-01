@@ -15,8 +15,13 @@ export class GetRecipesController implements Controller {
 			);
 		}
 
-		const ingredients = ingredientsString.split(',');
-		if (ingredients.length > this.maximumQtyOfIngredients) {
+		const ingredients = ingredientsString
+			.split(',')
+			.map(i => i.trim())
+			.filter(Boolean);
+
+		const ingredientsQty = ingredients.length;
+		if (!ingredientsQty || ingredientsQty > this.maximumQtyOfIngredients) {
 			throw new BadRequest(
 				`You can provide from 1 to ${this.maximumQtyOfIngredients} ingredients`,
 			);
