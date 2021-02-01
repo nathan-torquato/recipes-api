@@ -26,6 +26,15 @@ describe('GetRecipesUseCase', () => {
 		expect(getRecipeProviderSpy).toHaveBeenCalled();
 	});
 
+	test('should call GetRecipeProvider with received ingredients', async () => {
+		const { sut, getRecipeProvider } = makeSut();
+		const getRecipeProviderSpy = jest.spyOn(getRecipeProvider, 'getRecipes');
+		const ingredients = ['a', 'b', 'c'];
+
+		await sut.execute(ingredients);
+		expect(getRecipeProviderSpy).toHaveBeenCalledWith(ingredients);
+	});
+
 	test('should throw if GetRecipeProvider throws', async () => {
 		const { sut, getRecipeProvider } = makeSut();
 		jest.spyOn(getRecipeProvider, 'getRecipes').mockImplementationOnce(() => {
