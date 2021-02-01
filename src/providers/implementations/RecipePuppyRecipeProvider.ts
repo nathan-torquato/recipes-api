@@ -5,11 +5,17 @@ import { RecipeProvider } from '../protocols';
 export class RecipePuppyRecipeProvider implements RecipeProvider {
 	async getByIngredients(ingredients: string[]): Promise<RawRecipe[]> {
 		const URL = process.env.RECIPE_PUPPY_API_URL;
-		await axios.get(URL, {
+
+		const { data } = await axios.get<APIResponse>(URL, {
 			params: {
 				i: ingredients.join(','),
 			},
 		});
-		return [];
+
+		return data.results;
 	}
+}
+
+interface APIResponse {
+	results: RawRecipe[];
 }
