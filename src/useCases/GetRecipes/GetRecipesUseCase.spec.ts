@@ -25,4 +25,14 @@ describe('GetRecipesUseCase', () => {
 
 		expect(getRecipeProviderSpy).toHaveBeenCalled();
 	});
+
+	test('should throw if GetRecipeProvider throws', async () => {
+		const { sut, getRecipeProvider } = makeSut();
+		jest.spyOn(getRecipeProvider, 'getRecipes').mockImplementationOnce(() => {
+			throw Error();
+		});
+
+		const promise = sut.execute([]);
+		await expect(promise).rejects.toThrow();
+	});
 });
