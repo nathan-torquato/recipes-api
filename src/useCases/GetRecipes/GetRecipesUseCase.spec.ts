@@ -1,3 +1,4 @@
+import { Recipe } from '../../protocols';
 import { RecipeProvider, GIFProvider } from '../../providers';
 import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
@@ -64,5 +65,36 @@ describe('GetRecipesUseCase', () => {
 
 		const promise = sut.execute([]);
 		await expect(promise).rejects.toThrow();
+	});
+
+	test('should return a list of Recipes when receives valid input and providers return data', async () => {
+		const { sut, gifProvider, recipeProvider } = makeSut();
+		const mockedRecipeWithouGIF: Recipe = {
+			title: 'A recipe',
+			ingredients: ['egg', 'onion'],
+			link: 'https://google.com',
+			gif: '',
+		};
+
+		jest
+			.spyOn(recipeProvider, 'getByIngredients')
+			.mockReturnValueOnce(Promise.resolve([mockedRecipeWithouGIF]));
+
+		const mockedTitle = mockedRecipeWithouGIF.title;
+		const mockedGIFLink = 'https://gif.com/mocked';
+		const mockedGIFLinkByTitle: Record<string, string> = {
+			[mockedTitle]: mockedGIFLink,
+		};
+
+		jest
+			.spyOn(gifProvider, 'getByKeyword')
+			.mockReturnValueOnce(Promise.resolve(mockedGIFLinkByTitle));
+
+		const [recipe] = await sut.execute(['egg', 'onion']);
+		expect(recipe).toBeDefined();
+		expect(recipe).toMatchObject<Recipe>({
+			...mockedRecipeWithouGIF,
+			gif: mockedGIFLink,
+		});
 	});
 });
