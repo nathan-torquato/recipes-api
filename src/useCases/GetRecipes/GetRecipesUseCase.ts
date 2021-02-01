@@ -1,4 +1,4 @@
-import { RawRecipe, Recipe } from '../../protocols';
+import { RawRecipe, Recipe, RecipeList } from '../../protocols';
 import { RecipeProvider, GIFProvider } from '../../providers';
 
 export class GetRecipesUseCase {
@@ -15,7 +15,7 @@ export class GetRecipesUseCase {
 		};
 	}
 
-	async execute(ingredients: string[]): Promise<Recipe[]> {
+	async execute(ingredients: string[]): Promise<RecipeList> {
 		const rawRecipes = await this.recipeProvider.getByIngredients(ingredients);
 		const titles = rawRecipes.map(({ title }) => title);
 		const gifByTitle = await this.gifProvider.getByKeyword(titles);
@@ -24,6 +24,9 @@ export class GetRecipesUseCase {
 			this.buildRecipes(rawRecipe, gifByTitle),
 		);
 
-		return recipes;
+		return {
+			keywords: ingredients,
+			recipes,
+		};
 	}
 }

@@ -90,7 +90,9 @@ describe('GetRecipesUseCase', () => {
 			.spyOn(gifProvider, 'getByKeyword')
 			.mockReturnValueOnce(Promise.resolve(mockedGIFLinkByTitle));
 
-		const [recipe] = await sut.execute(['egg', 'onion']);
+		const ingredients = ['egg', 'onion'];
+		const { keywords, recipes } = await sut.execute(ingredients);
+		const [recipe] = recipes;
 		expect(recipe).toBeDefined();
 
 		const mockedRecipe: Recipe = {
@@ -99,9 +101,12 @@ describe('GetRecipesUseCase', () => {
 			link: 'https://google.com',
 			gif: mockedGIFLink,
 		};
+
 		expect(recipe).toMatchObject(mockedRecipe);
 		mockedRawRecipe.ingredients.split(', ').forEach(ingredient => {
 			expect(mockedRecipe.ingredients).toContain(ingredient);
 		});
+
+		expect(keywords).toBe(ingredients);
 	});
 });
