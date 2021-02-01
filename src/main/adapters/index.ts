@@ -1,1 +1,1 @@
-export { adaptRoute } from './express-route-adapters';
+export { expressRouteAdapter } from './express-route-adapters';
