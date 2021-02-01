@@ -3,9 +3,9 @@ import { Controller, HttpRequest, HttpResponse } from '../../protocols';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
 
 export class GetRecipesController implements Controller {
-	private readonly maximumQtyOfIngredients = 3;
+	private maximumQtyOfIngredients = 3;
 
-	constructor(private readonly getRecipesUseCase: GetRecipesUseCase) {}
+	constructor(private getRecipesUseCase: GetRecipesUseCase) {}
 
 	private getIngredients(httpRequest: HttpRequest): string[] {
 		const ingredientsString = httpRequest.query.i as string;

@@ -14,6 +14,7 @@
 		"@typescript-eslint/space-before-function-paren": "off",
 		"@typescript-eslint/member-delimiter-style": "off",
 		"@typescript-eslint/restrict-plus-operands": "off",
+		"@typescript-eslint/prefer-readonly": "off",
 		"no-tabs": "off",
 		"comma-dangle": "off",
 		"padded-blocks": "off"
