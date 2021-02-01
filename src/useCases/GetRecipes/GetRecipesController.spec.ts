@@ -53,4 +53,15 @@ describe('GetRecipesController', () => {
 		await sut.handle(httpRequest);
 		expect(useCaseSpy).toHaveBeenCalled();
 	});
+
+	test('should throw if GetRecipesUseCase throws', async () => {
+		const { sut, useCase } = makeSut();
+		jest.spyOn(useCase, 'execute').mockImplementation(() => {
+			throw Error();
+		});
+		const httpRequest = makeHttpRequest();
+
+		const promise = sut.handle(httpRequest);
+		await expect(promise).rejects.toThrow();
+	});
 });
