@@ -1,6 +1,6 @@
 import { BadRequest } from '../../errors';
 import { HttpRequest } from '../../protocols';
-import { makeGetRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
+import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesController } from './GetRecipesController';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
 
@@ -10,10 +10,7 @@ interface SutFactory {
 }
 
 function makeSut(): SutFactory {
-	const useCase = new GetRecipesUseCase(
-		makeGetRecipeProviderStub(),
-		makeGIFProviderStub(),
-	);
+	const useCase = new GetRecipesUseCase(makeRecipeProviderStub(), makeGIFProviderStub());
 	const sut = new GetRecipesController(useCase);
 
 	return {

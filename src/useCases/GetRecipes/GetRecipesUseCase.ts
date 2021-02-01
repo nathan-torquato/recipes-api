@@ -1,13 +1,10 @@
-import { GetRecipeProvider, GIFProvider } from '../../providers';
+import { RecipeProvider, GIFProvider } from '../../providers';
 
 export class GetRecipesUseCase {
-	constructor(
-		private getRecipeProvider: GetRecipeProvider,
-		private gifProvider: GIFProvider,
-	) {}
+	constructor(private recipeProvider: RecipeProvider, private gifProvider: GIFProvider) {}
 
 	async execute(ingredients: string[]): Promise<any> {
-		await this.getRecipeProvider.getRecipes(ingredients);
+		await this.recipeProvider.getByIngredients(ingredients);
 		await this.gifProvider.getByKeyword('');
 		return null;
 	}

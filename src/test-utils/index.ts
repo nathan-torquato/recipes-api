@@ -1,2 +1,2 @@
-export { makeGetRecipeProviderStub } from './makeGetRecipeProviderStub';
+export { makeRecipeProviderStub } from './makeRecipeProviderStub';
 export { makeGIFProviderStub } from './makeGIFProviderStub';

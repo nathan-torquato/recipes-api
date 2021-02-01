@@ -1,2 +1,2 @@
-export { GetRecipeProvider } from './GetRecipeProvider';
+export { RecipeProvider } from './RecipeProvider';
 export { GIFProvider } from './GIFProvider';

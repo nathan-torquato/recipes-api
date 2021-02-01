@@ -1,46 +1,46 @@
-import { GetRecipeProvider, GIFProvider } from '../../providers';
-import { makeGetRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
+import { RecipeProvider, GIFProvider } from '../../providers';
+import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
 
 interface SutFactory {
 	sut: GetRecipesUseCase;
-	getRecipeProvider: GetRecipeProvider;
+	recipeProvider: RecipeProvider;
 	gifProvider: GIFProvider;
 }
 
 function makeSut(): SutFactory {
-	const getRecipeProvider = makeGetRecipeProviderStub();
+	const recipeProvider = makeRecipeProviderStub();
 	const gifProvider = makeGIFProviderStub();
-	const sut = new GetRecipesUseCase(getRecipeProvider, gifProvider);
+	const sut = new GetRecipesUseCase(recipeProvider, gifProvider);
 
 	return {
 		sut,
-		getRecipeProvider,
+		recipeProvider,
 		gifProvider,
 	};
 }
 
 describe('GetRecipesUseCase', () => {
-	test('should use a GetRecipeProvider', async () => {
-		const { sut, getRecipeProvider } = makeSut();
-		const getRecipeProviderSpy = jest.spyOn(getRecipeProvider, 'getRecipes');
+	test('should use a RecipeProvider', async () => {
+		const { sut, recipeProvider } = makeSut();
+		const RecipeProviderSpy = jest.spyOn(recipeProvider, 'getByIngredients');
 		await sut.execute([]);
 
-		expect(getRecipeProviderSpy).toHaveBeenCalled();
+		expect(RecipeProviderSpy).toHaveBeenCalled();
 	});
 
-	test('should call GetRecipeProvider with received ingredients', async () => {
-		const { sut, getRecipeProvider } = makeSut();
-		const getRecipeProviderSpy = jest.spyOn(getRecipeProvider, 'getRecipes');
+	test('should call RecipeProvider with received ingredients', async () => {
+		const { sut, recipeProvider } = makeSut();
+		const RecipeProviderSpy = jest.spyOn(recipeProvider, 'getByIngredients');
 		const ingredients = ['a', 'b', 'c'];
 
 		await sut.execute(ingredients);
-		expect(getRecipeProviderSpy).toHaveBeenCalledWith(ingredients);
+		expect(RecipeProviderSpy).toHaveBeenCalledWith(ingredients);
 	});
 
-	test('should throw if GetRecipeProvider throws', async () => {
-		const { sut, getRecipeProvider } = makeSut();
-		jest.spyOn(getRecipeProvider, 'getRecipes').mockImplementationOnce(() => {
+	test('should throw if RecipeProvider throws', async () => {
+		const { sut, recipeProvider } = makeSut();
+		jest.spyOn(recipeProvider, 'getByIngredients').mockImplementationOnce(() => {
 			throw Error();
 		});
 
