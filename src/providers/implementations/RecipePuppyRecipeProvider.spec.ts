@@ -14,10 +14,28 @@ function makeSut(): SutFactory {
 }
 
 describe('RecipePuppyRecipeProvider', () => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+
 	test('should use axios to make a GET Request', async () => {
 		const { sut } = makeSut();
-		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve({}));
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValueOnce(Promise.resolve({}));
 		await sut.getByIngredients(['onion']);
-		expect(axiosSpy).toHaveBeenCalledTimes(1);
+
+		expect(axiosSpy).toHaveBeenCalled();
+	});
+
+	test('should include the received list of ingredients as a query param of the API GET request', async () => {
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve({}));
+		const { sut } = makeSut();
+		await sut.getByIngredients(['onions', 'orange']);
+
+		const API_URL = process.env.RECIPE_PUPPY_API_URL;
+		expect(axiosSpy).toHaveBeenCalledWith(API_URL, {
+			params: {
+				i: 'onions,orange',
+			},
+		});
 	});
 });
