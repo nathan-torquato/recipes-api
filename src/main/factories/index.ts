@@ -1,5 +1,12 @@
-import { GetRecipesController } from '../../useCases';
+import {
+	GiphyGIFProvider,
+	RecipePuppyRecipeProvider,
+} from '../../providers/implementations';
+import { GetRecipesController, GetRecipesUseCase } from '../../useCases';
 
 export function makeGetRecipesController(): GetRecipesController {
-	return new GetRecipesController();
+	const recipeProvider = new RecipePuppyRecipeProvider();
+	const gifProvider = new GiphyGIFProvider();
+	const getRecipesUseCase = new GetRecipesUseCase(recipeProvider, gifProvider);
+	return new GetRecipesController(getRecipesUseCase);
 }

@@ -1,5 +1,5 @@
 import { BadRequest } from '../../errors';
-import { HttpRequest } from '../../protocols';
+import { HttpRequest, RecipeList } from '../../protocols';
 import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesController } from './GetRecipesController';
 import { GetRecipesUseCase } from './GetRecipesUseCase';
@@ -77,7 +77,11 @@ describe('GetRecipesController', () => {
 
 	test('should return 200 and data from GetRecipesUseCase when gets valid request', async () => {
 		const { sut, useCase } = makeSut();
-		const mockedValue = [];
+		const mockedValue: RecipeList = {
+			keywords: [],
+			recipes: [],
+		};
+
 		jest.spyOn(useCase, 'execute').mockReturnValueOnce(Promise.resolve(mockedValue));
 		const httpRequest = makeHttpRequest();
 
