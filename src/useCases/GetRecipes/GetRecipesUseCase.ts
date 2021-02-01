@@ -4,7 +4,7 @@ import { RecipeProvider, GIFProvider } from '../../providers';
 export class GetRecipesUseCase {
 	constructor(private recipeProvider: RecipeProvider, private gifProvider: GIFProvider) {}
 
-	private buildRecipes(rawRecipe: RawRecipe, gifByTitle): Recipe {
+	private buildRecipes(rawRecipe: RawRecipe, gifByTitle: Record<string, string>): Recipe {
 		const ingredients = rawRecipe.ingredients.split(', ').sort();
 
 		return {

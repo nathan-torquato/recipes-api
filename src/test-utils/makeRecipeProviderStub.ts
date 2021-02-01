@@ -3,7 +3,7 @@ import { RecipeProvider } from '../providers';
 
 export function makeRecipeProviderStub(): RecipeProvider {
 	class ProviderStub implements RecipeProvider {
-		async getByIngredients(_ingredients): Promise<RawRecipe[]> {
+		async getByIngredients(_ingredients: string[]): Promise<RawRecipe[]> {
 			return [];
 		}
 	}
