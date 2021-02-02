@@ -9,6 +9,6 @@ services:
     environment:
       RECIPE_PUPPY_API_URL: 'http://www.recipepuppy.com/api'
       GIF_PUPPY_API_URL: 'http://api.giphy.com/v1/gifs/search'
-      GIF_API_KEY: 'hpeG8DPD0Jo2yPSIc15t03bPa5r7mw7C'
+      GIF_API_KEY: ''
     ports:
       - '7777:3000'
