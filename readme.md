@@ -2,6 +2,8 @@
 
 > [challenge](https://github.com/delivery-much/challenge)
 
+> a working docker image for this challenge can vbe found [here](https://hub.docker.com/repository/docker/nathantorquato/recipes-api)
+
 ## Instructions
 
 ### Running with Docker
