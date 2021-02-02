@@ -6,6 +6,7 @@
   "scripts": {
     "start": "sucrase-node src/main/server.ts",
     "build": "rimraf dist && tsc",
+    "serve": "node dist/src/main/server.js",
     "test": "jest --passWithNoTests --runInBand",
     "test:watch": "npm test -- --watch",
     "test:verbose": "jest --passWithNoTests",

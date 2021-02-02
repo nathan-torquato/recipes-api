@@ -13,5 +13,5 @@ requiredEnvVars.forEach(envVar => {
 
 const PORT = 3000;
 app.listen(PORT, () =>
-	console.log(`Server is running on http://localhost:${PORT}/recipes?i=onion,tomato`),
+	console.log('Server is running: http://localhost:<PORT>?i=onion,lettuce,tomatoes'),
 );
