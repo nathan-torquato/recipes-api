@@ -7,6 +7,16 @@ export class GetRecipesController implements Controller {
 
 	constructor(private getRecipesUseCase: GetRecipesUseCase) {}
 
+	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+		const ingredients = this.getIngredients(httpRequest);
+		const recipes = await this.getRecipesUseCase.execute(ingredients);
+
+		return {
+			statusCode: 200,
+			body: recipes,
+		};
+	}
+
 	private getIngredients(httpRequest: HttpRequest): string[] {
 		const ingredientsString = httpRequest.query.i as string;
 		if (!ingredientsString) {
@@ -28,15 +38,5 @@ export class GetRecipesController implements Controller {
 		}
 
 		return ingredients;
-	}
-
-	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-		const ingredients = this.getIngredients(httpRequest);
-		const recipes = await this.getRecipesUseCase.execute(ingredients);
-
-		return {
-			statusCode: 200,
-			body: recipes,
-		};
 	}
 }
