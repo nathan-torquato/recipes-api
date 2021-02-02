@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { NotImplemented } from '../../errors';
 import { RawRecipe } from '../../protocols';
 import { RecipePuppyRecipeProvider } from './RecipePuppyRecipeProvider';
 
@@ -57,6 +58,38 @@ describe('RecipePuppyRecipeProvider', () => {
 				i: 'onions,orange',
 			},
 		});
+	});
+
+	test('should throw SystemException if API response does not match expected schema', async () => {
+		jest.spyOn(axios, 'get').mockReturnValue(
+			Promise.resolve({
+				data: {
+					recipeList: [],
+				},
+			}),
+		);
+		const { sut } = makeSut();
+
+		const promise = sut.getByIngredients(['onions', 'orange']);
+		await expect(promise).rejects.toThrow(NotImplemented);
+	});
+
+	test('should throw SystemException if recipe object in API response does not match expected schema', async () => {
+		jest.spyOn(axios, 'get').mockReturnValue(
+			Promise.resolve({
+				data: {
+					results: [
+						{
+							name: 'some recipe name',
+						},
+					],
+				},
+			}),
+		);
+		const { sut } = makeSut();
+
+		const promise = sut.getByIngredients(['onions', 'orange']);
+		await expect(promise).rejects.toThrow(NotImplemented);
 	});
 
 	test('should return the data as-is from API response', async () => {
