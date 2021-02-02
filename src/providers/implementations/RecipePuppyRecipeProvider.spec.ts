@@ -15,7 +15,7 @@ function makeSut(): SutFactory {
 	};
 }
 
-async function getMockedRawRecipes(): Promise<AxiosResponse<{ results: RawRecipe[] }>> {
+async function getMockedResponse(): Promise<AxiosResponse<{ results: RawRecipe[] }>> {
 	return {
 		config: {},
 		headers: {},
@@ -41,14 +41,14 @@ describe('RecipePuppyRecipeProvider', () => {
 
 	test('should use axios to make a GET Request', async () => {
 		const { sut } = makeSut();
-		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValueOnce(getMockedRawRecipes());
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValueOnce(getMockedResponse());
 		await sut.getByIngredients(['onion']);
 
 		expect(axiosSpy).toHaveBeenCalled();
 	});
 
 	test('should include the received list of ingredients as a query param of the API GET request', async () => {
-		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedRawRecipes());
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
 		const { sut } = makeSut();
 		await sut.getByIngredients(['onions', 'orange']);
 
@@ -93,11 +93,11 @@ describe('RecipePuppyRecipeProvider', () => {
 	});
 
 	test('should return the data as-is from API response', async () => {
-		jest.spyOn(axios, 'get').mockReturnValue(getMockedRawRecipes());
+		jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
 		const { sut } = makeSut();
 
 		const recipes = await sut.getByIngredients(['onions', 'orange']);
-		const { data } = await getMockedRawRecipes();
+		const { data } = await getMockedResponse();
 		expect(recipes).toEqual(data.results);
 	});
 });
