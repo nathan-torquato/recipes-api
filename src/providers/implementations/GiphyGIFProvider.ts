@@ -4,11 +4,13 @@ import { GIFProvider } from '../protocols';
 
 export class GiphyGIFProvider implements GIFProvider {
 	async getByKeyword(keywords: string[]): Promise<Record<string, string>> {
-		await this.fetch(keywords);
-		return {};
+		const gifResponseList = await this.fetch(keywords);
+		const keywordGifMap = this.buildKeywordGIFMap(keywords, gifResponseList);
+
+		return keywordGifMap;
 	}
 
-	private async fetch(keywords: string[]): Promise<Record<string, string>> {
+	private async fetch(keywords: string[]): Promise<string[]> {
 		const URL = process.env.GIF_PUPPY_API_URL;
 		const API_KEY = process.env.GIF_API_KEY;
 
@@ -28,12 +30,7 @@ export class GiphyGIFProvider implements GIFProvider {
 			}),
 		);
 
-		const gifByKeyword = keywords.reduce<Record<string, string>>((acc, key, index) => {
-			acc[key] = gifResponseList[index];
-			return acc;
-		}, {});
-
-		return gifByKeyword;
+		return gifResponseList;
 	}
 
 	private validateResponse(response: GIFResponse): void {
@@ -61,6 +58,16 @@ export class GiphyGIFProvider implements GIFProvider {
 		const prefix = "The following props wern't found in RecipePuppy API Response";
 		const suffix = 'original.url';
 		throw new NotImplemented(`${prefix}: ${suffix}.`);
+	}
+
+	private buildKeywordGIFMap(
+		keywords: string[],
+		gifResponseList: string[],
+	): Record<string, string> {
+		return keywords.reduce<Record<string, string>>((acc, key, index) => {
+			acc[key] = gifResponseList[index];
+			return acc;
+		}, {});
 	}
 }
 

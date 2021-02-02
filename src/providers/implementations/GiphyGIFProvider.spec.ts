@@ -14,6 +14,18 @@ function makeSut(): SutFactory {
 	};
 }
 
+const mockedData = {
+	id: 'random-text',
+	images: {
+		original: {
+			height: '600',
+			width: '600',
+			size: '43487171',
+			url: 'https://media2.giphy.com/id.gif',
+		},
+	},
+};
+
 async function getMockedResponse(): Promise<AxiosResponse<GIFResponse>> {
 	return {
 		config: {},
@@ -21,19 +33,7 @@ async function getMockedResponse(): Promise<AxiosResponse<GIFResponse>> {
 		status: 200,
 		statusText: '',
 		data: {
-			data: [
-				{
-					id: 'random-text',
-					images: {
-						original: {
-							height: '600',
-							width: '600',
-							size: '43487171',
-							url: 'https://media2.giphy.com/id.gif',
-						},
-					},
-				},
-			],
+			data: [{ ...mockedData }, { ...mockedData }],
 		},
 	};
 }
@@ -102,5 +102,16 @@ describe('GiphyGIFProvider', () => {
 
 		const promise = sut.getByKeyword(['onions', 'orange']);
 		await expect(promise).rejects.toThrow(NotImplemented);
+	});
+
+	test('should return a title-gif object', async () => {
+		jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
+		const { sut } = makeSut();
+
+		const response = await sut.getByKeyword(['Recipe 1', 'Recipe 2']);
+		expect(response).toMatchObject({
+			'Recipe 1': mockedData.images.original.url,
+			'Recipe 2': mockedData.images.original.url,
+		});
 	});
 });
