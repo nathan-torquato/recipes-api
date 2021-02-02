@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { NotImplemented } from '../../errors';
-import { GIFResponse, GiphyGIFProvider } from './GiphyGIFProvider';
+import { NotImplemented } from '../../src/errors';
+import {
+	GIFResponse,
+	GiphyGIFProvider,
+} from '../../src/providers/implementations/GiphyGIFProvider';
 
 interface SutFactory {
 	sut: GiphyGIFProvider;

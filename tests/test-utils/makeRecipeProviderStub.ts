@@ -1,5 +1,5 @@
-import { RawRecipe } from '../protocols';
-import { RecipeProvider } from '../providers';
+import { RawRecipe } from '../../src/protocols';
+import { RecipeProvider } from '../../src/providers';
 
 export function makeRecipeProviderStub(): RecipeProvider {
 	class ProviderStub implements RecipeProvider {

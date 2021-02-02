@@ -1,4 +1,4 @@
-import { GIFProvider } from '../providers';
+import { GIFProvider } from '../../src/providers';
 
 export function makeGIFProviderStub(): GIFProvider {
 	class ProviderStub implements GIFProvider {

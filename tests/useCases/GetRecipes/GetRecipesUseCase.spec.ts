@@ -1,7 +1,7 @@
-import { RawRecipe, Recipe } from '../../protocols';
-import { RecipeProvider, GIFProvider } from '../../providers';
+import { RawRecipe, Recipe } from '../../../src/protocols';
+import { RecipeProvider, GIFProvider } from '../../../src/providers';
 import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
-import { GetRecipesUseCase } from './GetRecipesUseCase';
+import { GetRecipesUseCase } from '../../../src/useCases/GetRecipes/GetRecipesUseCase';
 
 interface SutFactory {
 	sut: GetRecipesUseCase;

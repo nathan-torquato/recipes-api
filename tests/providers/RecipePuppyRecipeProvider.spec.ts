@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { NotImplemented } from '../../errors';
-import { RawRecipe } from '../../protocols';
-import { RecipePuppyRecipeProvider } from './RecipePuppyRecipeProvider';
+import { NotImplemented } from '../../src/errors';
+import { RawRecipe } from '../../src/protocols';
+import { RecipePuppyRecipeProvider } from '../../src/providers/implementations/RecipePuppyRecipeProvider';
 
 interface SutFactory {
 	sut: RecipePuppyRecipeProvider;
