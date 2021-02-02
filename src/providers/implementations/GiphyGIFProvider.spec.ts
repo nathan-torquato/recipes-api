@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { NotImplemented } from '../../errors';
 import { GIFResponse, GiphyGIFProvider } from './GiphyGIFProvider';
 
 interface SutFactory {
@@ -48,7 +49,7 @@ describe('GiphyGIFProvider', () => {
 
 	test('should use axios to make a GET Request', async () => {
 		const { sut } = makeSut();
-		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValueOnce(getMockedResponse());
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
 		await sut.getByKeyword(['A great recipe', 'Another amazng one']);
 
 		expect(axiosSpy).toHaveBeenCalled();
@@ -56,7 +57,7 @@ describe('GiphyGIFProvider', () => {
 
 	test('should call API with correct config', async () => {
 		const { sut } = makeSut();
-		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValueOnce(getMockedResponse());
+		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
 		const keywords = ['A great recipe', 'Another amazng one'];
 		await sut.getByKeyword(keywords);
 
@@ -69,5 +70,37 @@ describe('GiphyGIFProvider', () => {
 				q: keywords[1],
 			},
 		});
+	});
+
+	test('should throw SystemException if API response does not match expected schema', async () => {
+		jest.spyOn(axios, 'get').mockReturnValue(
+			Promise.resolve({
+				data: {
+					gifs: [],
+				},
+			}),
+		);
+		const { sut } = makeSut();
+
+		const promise = sut.getByKeyword(['Recipe 1', 'Recipe 2']);
+		await expect(promise).rejects.toThrow(NotImplemented);
+	});
+
+	test('should throw SystemException if recipe object in API response does not match expected schema', async () => {
+		jest.spyOn(axios, 'get').mockReturnValue(
+			Promise.resolve({
+				data: {
+					data: [
+						{
+							imageList: {},
+						},
+					],
+				},
+			}),
+		);
+		const { sut } = makeSut();
+
+		const promise = sut.getByKeyword(['onions', 'orange']);
+		await expect(promise).rejects.toThrow(NotImplemented);
 	});
 });

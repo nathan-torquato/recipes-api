@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NotImplemented } from '../../errors';
 import { GIFProvider } from '../protocols';
 
 export class GiphyGIFProvider implements GIFProvider {
@@ -21,6 +22,8 @@ export class GiphyGIFProvider implements GIFProvider {
 					},
 				});
 
+				this.validateResponse(data);
+				this.validateGIFObjectSchema(data.data[0]);
 				return data.data[0].images.original.url;
 			}),
 		);
@@ -32,18 +35,49 @@ export class GiphyGIFProvider implements GIFProvider {
 
 		return gifByKeyword;
 	}
+
+	private validateResponse(response: GIFResponse): void {
+		const { data } = response;
+		if (!data || !Array.isArray(data)) {
+			const value = JSON.stringify(response);
+			throw new NotImplemented(
+				`Response from Giphy API has changed. Received value: ${value}`,
+			);
+		}
+	}
+
+	private validateGIFObjectSchema(object: GIFObject): void {
+		if (!object.images) {
+			const value = JSON.stringify(object);
+			throw new NotImplemented(
+				`Response from Giphy API has changed object schema. Received value: ${value}`,
+			);
+		}
+
+		if (object?.images?.original?.url) {
+			return;
+		}
+
+		const prefix = "The following props wern't found in RecipePuppy API Response";
+		const suffix = 'original.url';
+		throw new NotImplemented(`${prefix}: ${suffix}.`);
+	}
 }
 
 export interface GIFResponse {
-	data: Array<{
-		id: string;
-		images: {
-			original: {
-				height: string;
-				width: string;
-				size: string;
-				url: string;
-			};
-		};
-	}>;
+	data: GIFObject[];
+}
+
+interface GIFObject {
+	id: string;
+	images: GIFImageObject;
+}
+
+interface GIFImageObject {
+	original: {
+		height: string;
+		width: string;
+		size: string;
+		url: string;
+	};
 }
