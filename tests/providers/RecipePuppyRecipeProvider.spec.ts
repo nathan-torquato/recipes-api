@@ -1,17 +1,20 @@
 import axios, { AxiosResponse } from 'axios';
 import { NotImplemented } from '../../src/errors';
 import { RawRecipe } from '../../src/protocols';
-import { RecipePuppyRecipeProvider } from '../../src/providers/implementations/RecipePuppyRecipeProvider';
+import { RecipePuppyRecipeProvider } from '../../src/providers/';
 
 interface SutFactory {
 	sut: RecipePuppyRecipeProvider;
+	baseURL: string;
 }
 
 function makeSut(): SutFactory {
-	const sut = new RecipePuppyRecipeProvider();
+	const baseURL = 'base-url';
+	const sut = new RecipePuppyRecipeProvider(baseURL);
 
 	return {
 		sut,
+		baseURL,
 	};
 }
 
@@ -49,11 +52,10 @@ describe('RecipePuppyRecipeProvider', () => {
 
 	test('should include the received list of ingredients as a query param of the API GET request', async () => {
 		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
-		const { sut } = makeSut();
+		const { sut, baseURL } = makeSut();
 		await sut.getByIngredients(['onions', 'orange']);
 
-		const API_URL = process.env.RECIPE_PUPPY_API_URL;
-		expect(axiosSpy).toHaveBeenCalledWith(API_URL, {
+		expect(axiosSpy).toHaveBeenCalledWith(baseURL, {
 			params: {
 				i: 'onions,orange',
 			},

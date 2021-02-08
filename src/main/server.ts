@@ -3,7 +3,12 @@ import { app } from './app';
 
 dotenv.config();
 
-const requiredEnvVars = ['RECIPE_PUPPY_API_URL', 'GIF_PUPPY_API_URL', 'GIF_API_KEY'];
+const requiredEnvVars = [
+	'RECIPE_PUPPY_API_URL',
+	'GIF_PUPPY_API_URL',
+	'GIF_API_KEY',
+	'GIF_NOT_FOUND_URL',
+];
 
 requiredEnvVars.forEach(envVar => {
 	if (!process.env[envVar]) {

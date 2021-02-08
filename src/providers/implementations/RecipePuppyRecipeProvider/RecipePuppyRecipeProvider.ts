@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { NotImplemented } from '../../errors';
-import { RawRecipe } from '../../protocols';
-import { RecipeProvider } from '../protocols';
+import { NotImplemented } from '../../../errors';
+import { RawRecipe } from '../../../protocols';
+import { RecipeProvider } from '../../protocols';
+import { RecipePuppyAPIResponse } from './protocols';
 
 export class RecipePuppyRecipeProvider implements RecipeProvider {
+	constructor(private baseURL: string) {}
+
 	async getByIngredients(ingredients: string[]): Promise<RawRecipe[]> {
 		const response = await this.fetch(ingredients);
 		this.validateResponse(response);
@@ -12,10 +15,8 @@ export class RecipePuppyRecipeProvider implements RecipeProvider {
 		return response.results;
 	}
 
-	private async fetch(ingredients: string[]): Promise<APIResponse> {
-		const URL = process.env.RECIPE_PUPPY_API_URL;
-
-		const { data } = await axios.get<APIResponse>(URL, {
+	private async fetch(ingredients: string[]): Promise<RecipePuppyAPIResponse> {
+		const { data } = await axios.get<RecipePuppyAPIResponse>(this.baseURL, {
 			params: {
 				i: ingredients.join(','),
 			},
@@ -24,7 +25,7 @@ export class RecipePuppyRecipeProvider implements RecipeProvider {
 		return data;
 	}
 
-	private validateResponse(response: APIResponse): void {
+	private validateResponse(response: RecipePuppyAPIResponse): void {
 		const { results } = response;
 		if (!results || !Array.isArray(results)) {
 			const value = JSON.stringify(response);
@@ -53,8 +54,4 @@ export class RecipePuppyRecipeProvider implements RecipeProvider {
 			throw new NotImplemented(`${prefix}: ${suffix}.`);
 		});
 	}
-}
-
-interface APIResponse {
-	results: RawRecipe[];
 }

@@ -1,2 +1,2 @@
-export { GiphyGIFProvider } from './GiphyGIFProvider';
-export { RecipePuppyRecipeProvider } from './RecipePuppyRecipeProvider';
+export * from './GiphyGIFProvider';
+export * from './RecipePuppyRecipeProvider';

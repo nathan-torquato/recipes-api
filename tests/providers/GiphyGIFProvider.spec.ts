@@ -1,19 +1,25 @@
 import axios, { AxiosResponse } from 'axios';
 import { NotImplemented } from '../../src/errors';
-import {
-	GIFResponse,
-	GiphyGIFProvider,
-} from '../../src/providers/implementations/GiphyGIFProvider';
+import { GIFResponse, GiphyGIFProvider } from '../../src/providers';
 
 interface SutFactory {
 	sut: GiphyGIFProvider;
+	baseUrl: string;
+	apiKey: string;
+	gifNotFoundUrl: string;
 }
 
 function makeSut(): SutFactory {
-	const sut = new GiphyGIFProvider();
+	const baseUrl = 'baseUrl';
+	const apiKey = 'apiKey';
+	const gifNotFoundUrl = 'gifNotFoundUrl';
+	const sut = new GiphyGIFProvider(baseUrl, apiKey, gifNotFoundUrl);
 
 	return {
 		sut,
+		baseUrl,
+		apiKey,
+		gifNotFoundUrl,
 	};
 }
 
@@ -59,16 +65,14 @@ describe('GiphyGIFProvider', () => {
 	});
 
 	test('should call API with correct config', async () => {
-		const { sut } = makeSut();
+		const { sut, baseUrl, apiKey } = makeSut();
 		const axiosSpy = jest.spyOn(axios, 'get').mockReturnValue(getMockedResponse());
 		const keywords = ['A great recipe', 'Another amazng one'];
 		await sut.getByKeyword(keywords);
 
-		const URL = process.env.GIF_PUPPY_API_URL;
-		const API_KEY = process.env.GIF_API_KEY;
-		expect(axiosSpy).toHaveBeenLastCalledWith(URL, {
+		expect(axiosSpy).toHaveBeenLastCalledWith(baseUrl, {
 			params: {
-				api_key: API_KEY,
+				api_key: apiKey,
 				limit: 1,
 				q: keywords[1],
 			},

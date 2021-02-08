@@ -1,8 +1,15 @@
 import axios from 'axios';
-import { NotImplemented } from '../../errors';
-import { GIFProvider } from '../protocols';
+import { NotImplemented } from '../../../errors';
+import { GIFProvider } from '../../protocols';
+import { GIFObject, GIFResponse } from './protocols';
 
 export class GiphyGIFProvider implements GIFProvider {
+	constructor(
+		private baseUrl: string,
+		private apiKey: string,
+		private gifNotFoundURL: string,
+	) {}
+
 	async getByKeyword(keywords: string[]): Promise<Record<string, string>> {
 		const gifResponseList = await this.fetch(keywords);
 		const keywordGifMap = this.buildKeywordGIFMap(keywords, gifResponseList);
@@ -11,22 +18,23 @@ export class GiphyGIFProvider implements GIFProvider {
 	}
 
 	private async fetch(keywords: string[]): Promise<string[]> {
-		const URL = process.env.GIF_PUPPY_API_URL;
-		const API_KEY = process.env.GIF_API_KEY;
-
 		const gifResponseList = await Promise.all(
 			keywords.map(async keyword => {
-				const { data } = await axios.get<GIFResponse>(URL, {
+				const { data: response } = await axios.get<GIFResponse>(this.baseUrl, {
 					params: {
 						q: keyword,
-						api_key: API_KEY,
+						api_key: this.apiKey,
 						limit: 1,
 					},
 				});
 
-				this.validateResponse(data);
-				this.validateGIFObjectSchema(data.data[0]);
-				return data.data[0].images.original.url;
+				this.validateResponse(response);
+				if (!response.data.length) {
+					return this.gifNotFoundURL;
+				}
+
+				this.validateGIFObjectSchema(response.data[0]);
+				return response.data[0].images.original.url;
 			}),
 		);
 
@@ -69,22 +77,4 @@ export class GiphyGIFProvider implements GIFProvider {
 			return acc;
 		}, {});
 	}
-}
-
-export interface GIFResponse {
-	data: GIFObject[];
-}
-
-interface GIFObject {
-	id: string;
-	images: GIFImageObject;
-}
-
-interface GIFImageObject {
-	original: {
-		height: string;
-		width: string;
-		size: string;
-		url: string;
-	};
 }
