@@ -9,9 +9,7 @@ export class GetRecipesUseCase {
 		const titles = rawRecipes.map(({ title }) => title);
 		const gifByTitle = await this.gifProvider.getByKeyword(titles);
 
-		const recipes: Recipe[] = rawRecipes.map(rawRecipe =>
-			this.buildRecipe(rawRecipe, gifByTitle),
-		);
+		const recipes = rawRecipes.map(rawRecipe => this.buildRecipe(rawRecipe, gifByTitle));
 
 		return {
 			keywords: ingredients,

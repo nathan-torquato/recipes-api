@@ -55,9 +55,9 @@ export class GiphyGIFProvider implements GIFProvider {
 			return;
 		}
 
-		const prefix = "The following props wern't found in RecipePuppy API Response";
-		const suffix = 'original.url';
-		throw new NotImplemented(`${prefix}: ${suffix}.`);
+		throw new NotImplemented(
+			'Giphy API Response doesn not provide the url for the original image.',
+		);
 	}
 
 	private buildKeywordGIFMap(
