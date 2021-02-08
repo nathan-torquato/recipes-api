@@ -13,6 +13,7 @@
 - use it for setting the value for GIF_API_KEY in docker-compose.yml
 - Start docker on your machine
 - From your terminal, run `docker-compose up`
+- Access http://localhost:7777/recipes?i=tomato,onion
 
 ### Running locally
 
