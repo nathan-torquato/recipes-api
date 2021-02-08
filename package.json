@@ -1,49 +1,51 @@
 {
-  "name": "recipes-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main/server.js",
-  "scripts": {
-    "start": "sucrase-node src/main/server.ts",
-    "build": "rimraf dist && tsc",
-    "serve": "node dist/src/main/server.js",
-    "test": "jest --passWithNoTests --runInBand",
-    "test:watch": "npm test -- --watch",
-    "test:verbose": "jest --passWithNoTests",
-    "test:unit": "npm run test:watch -- -c jest-unit-config.js",
-    "test:integration": "npm run test:watch -- -c jest-integration-config.js",
-    "test:staged": "npm run test -- --findRelatedTests",
-    "test:ci": "npm run test -- --coverage"
-  },
-  "keywords": [],
-  "engines": {
-    "node": "12.x"
-  },
-  "author": "Nathan Torquato",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/express": "^4.17.11",
-    "@types/node": "^14.14.22",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.19.0",
-    "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^5.0.0",
-    "git-commit-msg-linter": "^3.0.0",
-    "husky": "^4.3.8",
-    "jest": "^26.6.3",
-    "lint-staged": "^10.5.3",
-    "rimraf": "^3.0.2",
-    "sucrase": "^3.17.1",
-    "ts-jest": "^26.5.0",
-    "typescript": "^4.1.3"
-  }
+	"name": "recipes-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main/server.js",
+	"scripts": {
+		"dev": "ts-node-dev --respawn src/main/server.ts",
+		"start": "sucrase-node src/main/server.ts",
+		"build": "rimraf dist && tsc",
+		"serve": "npm run build && node dist/src/main/server.js",
+		"test": "jest --passWithNoTests --runInBand",
+		"test:watch": "npm test -- --watch",
+		"test:verbose": "jest --passWithNoTests",
+		"test:unit": "npm run test:watch -- -c jest-unit-config.js",
+		"test:integration": "npm run test:watch -- -c jest-integration-config.js",
+		"test:staged": "npm run test -- --findRelatedTests",
+		"test:ci": "npm run test -- --coverage"
+	},
+	"keywords": [],
+	"engines": {
+		"node": "12.x"
+	},
+	"author": "Nathan Torquato",
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^0.21.1",
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"@types/axios": "^0.14.0",
+		"@types/express": "^4.17.11",
+		"@types/node": "^14.14.22",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"dotenv": "^8.2.0",
+		"eslint": "^7.19.0",
+		"eslint-config-standard-with-typescript": "^20.0.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^5.0.0",
+		"git-commit-msg-linter": "^3.0.0",
+		"husky": "^4.3.8",
+		"jest": "^26.6.3",
+		"lint-staged": "^10.5.3",
+		"rimraf": "^3.0.2",
+		"sucrase": "^3.17.1",
+		"ts-jest": "^26.5.0",
+		"ts-node-dev": "^1.1.1",
+		"typescript": "^4.1.3"
+	}
 }
