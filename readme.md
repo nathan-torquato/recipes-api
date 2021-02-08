@@ -10,7 +10,7 @@
 
 ### Running with Docker
 
-- use it for setting the value for GIF_API_KEY in docker-compose.yml
+- Use the generated API_KEY for setting the value for GIF_API_KEY in docker-compose.yml
 - Start docker on your machine
 - From your terminal, run `docker-compose up`
 - Access http://localhost:7777/recipes?i=tomato,onion
@@ -18,6 +18,7 @@
 ### Running locally
 
 - Create a .env file in the root of the project and set the same variables as we have in the `.env.test` file
+- Use the generated API_KEY for setting the value for GIF_API_KEY
 - From your terminal, run:
   - `npm install`
   - `npm start`
