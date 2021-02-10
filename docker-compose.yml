@@ -12,4 +12,6 @@ services:
       GIF_API_KEY: ${GIF_API_KEY}
       GIF_NOT_FOUND_URL: ${GIF_NOT_FOUND_URL}
     ports:
-      - ${EXPOSED_PORT}:3000
+      - ${EXPOSED_PORT}:${PORT}
+    volumes:
+      - .:/usr/app
