@@ -1,8 +1,9 @@
 import { BadRequest } from '../../../src/errors';
-import { HttpRequest, RecipeList } from '../../../src/protocols';
+import { HttpRequest } from '../../../src/protocols';
 import { makeRecipeProviderStub, makeGIFProviderStub } from '../../test-utils';
 import { GetRecipesController } from '../../../src/useCases/GetRecipes/GetRecipesController';
 import { GetRecipesUseCase } from '../../../src/useCases/GetRecipes/GetRecipesUseCase';
+import { RecipeList } from '../../models';
 
 interface SutFactory {
 	sut: GetRecipesController;

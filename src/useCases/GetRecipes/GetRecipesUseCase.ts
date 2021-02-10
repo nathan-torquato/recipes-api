@@ -1,4 +1,5 @@
-import { RawRecipe, Recipe, RecipeList } from '../../protocols';
+import { Recipe, RecipeList } from '../../models';
+import { RawRecipe } from '../../protocols';
 import { RecipeProvider, GIFProvider } from '../../providers';
 
 export class GetRecipesUseCase {
