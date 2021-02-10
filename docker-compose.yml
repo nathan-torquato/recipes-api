@@ -7,9 +7,9 @@ services:
     build: .
     command: npm start
     environment:
-      RECIPE_PUPPY_API_URL: 'http://www.recipepuppy.com/api'
-      GIF_PUPPY_API_URL: 'http://api.giphy.com/v1/gifs/search'
-      GIF_API_KEY: ''
-      GIF_NOT_FOUND_URL: 'https://assets.website-files.com/5c6dab076fc786143a664e6f/5cc88fef71a23e8053658ff7_campfire-01.gif'
+      RECIPE_PUPPY_API_URL: ${RECIPE_PUPPY_API_URL}
+      GIF_PUPPY_API_URL: ${GIF_PUPPY_API_URL}
+      GIF_API_KEY: ${GIF_API_KEY}
+      GIF_NOT_FOUND_URL: ${GIF_NOT_FOUND_URL}
     ports:
-      - '7777:3000'
+      - ${EXPOSED_PORT}:3000
