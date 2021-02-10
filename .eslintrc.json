@@ -17,6 +17,8 @@
 		"@typescript-eslint/prefer-readonly": "off",
 		"no-tabs": "off",
 		"comma-dangle": "off",
-		"padded-blocks": "off"
+		"padded-blocks": "off",
+		"indent": "off",
+		"semi": "off"
 	}
 }
